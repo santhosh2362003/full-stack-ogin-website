@@ -1,18 +1,16 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const connectDB = require("./config/db");
 const User = require("./models/User");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// DB connect
-mongoose.connect("mongodb://127.0.0.1:27017/fullstackDB")
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+// DB connect call
+connectDB();
 
-// Register API
+// Routes
 app.post("/register", async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -26,7 +24,6 @@ app.post("/register", async (req, res) => {
     }
 });
 
-// Login API
 app.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -39,4 +36,5 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.listen(5000, () => console.log("Server running on port 5000"));
 app.listen(5000, () => console.log("Server running on port 5000"));
